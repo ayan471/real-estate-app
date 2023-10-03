@@ -15,6 +15,7 @@ export const updateUser = async (req, res, next) => {
     if (req.body.password) {
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
     }
+
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
@@ -27,7 +28,9 @@ export const updateUser = async (req, res, next) => {
       },
       { new: true }
     );
+
     const { password, ...rest } = updatedUser._doc;
+
     res.status(200).json(rest);
   } catch (error) {
     next(error);
